@@ -1,3 +1,7 @@
+/*
+Package that implements a minimal library to interact with the Marvel API.
+See https://developer.marvel.com/
+*/
 package marvel
 
 import (
@@ -55,11 +59,13 @@ type Character struct {
 	Thumbnail   thumbnail `json:"thumbnail"`
 }
 
-func NewApi(privateKey, publicKey string) *api {
+// NewAPI returns a new api given the public and private keys
+func NewAPI(privateKey, publicKey string) *api {
 	rand.Seed(time.Now().UnixNano())
 	return &api{privateKey, publicKey}
 }
 
+// GetRandomeCharacter returns a random character from the Marvel API
 func (api *api) GetRandomCharacter() Character {
 
 	ts := strconv.FormatInt(time.Now().UnixNano(), 10)
@@ -88,13 +94,13 @@ func (api *api) GetRandomCharacter() Character {
 		return Character{Name: "Json-Error-Man"}
 	}
 
-	// fmt.Printf("%s\n", body)
 	fmt.Printf("%#v\n", response)
 
 	return response.Data.Results[0]
 }
 
-// md5(ts+privateKey+publicKey)
+// hash generates a hash value required by the Marvel API
+// hash = md5(ts+privateKey+publicKey)
 func hash(ts, privateKey, publicKey string) string {
 	h := md5.New()
 	h.Write([]byte(ts))
