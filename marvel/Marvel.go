@@ -24,7 +24,7 @@ const (
 	total       = 1490
 )
 
-type api struct {
+type Api struct {
 	privateKey string
 	publicKey  string
 }
@@ -60,13 +60,13 @@ type Character struct {
 }
 
 // NewAPI returns a new api given the public and private keys
-func NewAPI(privateKey, publicKey string) *api {
+func NewAPI(privateKey, publicKey string) *Api {
 	rand.Seed(time.Now().UnixNano())
-	return &api{privateKey, publicKey}
+	return &Api{privateKey, publicKey}
 }
 
 // GetRandomeCharacter returns a random character from the Marvel API
-func (api *api) GetRandomCharacter() Character {
+func (api *Api) GetRandomCharacter() Character {
 
 	ts := strconv.FormatInt(time.Now().UnixNano(), 10)
 	offset := rand.Intn(total) + 1
