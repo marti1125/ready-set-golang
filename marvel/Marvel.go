@@ -69,7 +69,7 @@ func NewAPI(privateKey, publicKey string) *Api {
 func (api *Api) GetRandomCharacter() Character {
 
 	ts := strconv.FormatInt(time.Now().UnixNano(), 10)
-	offset := rand.Intn(total) + 1
+	offset := rand.Intn(total)
 	hash := hash(ts, api.privateKey, api.publicKey)
 	url := fmt.Sprintf("%s?%s=%s&%s=%s&%s=%s&limit=1&%s=%d", baseURL, tsParam, ts, apiKeyParam, api.publicKey, hashParam, hash, offsetParam, offset)
 	fmt.Println(url)
