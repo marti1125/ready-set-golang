@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 
 	"github.com/orlandovald/ready-set-golang/marvel"
 )
@@ -28,6 +30,7 @@ func main() {
 
 	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/character/random", characterHandler)
+	http.HandleFunc("/character/random/", randomCountHandler)
 
 	log.Println("Starting server")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -48,4 +51,36 @@ func characterHandler(w http.ResponseWriter, r *http.Request) {
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello, Go!")
+}
+
+type Results struct {
+	Data []marvel.Character
+}
+
+func randomCountHandler(w http.ResponseWriter, r *http.Request) {
+
+	count, err := strconv.Atoi(strings.TrimPrefix(r.URL.Path, "/character/random/"))
+	if err != nil {
+		count = 1
+	}
+	ch := make(chan marvel.Character, count)
+
+	data := make([]marvel.Character, count)
+
+	for i := 0; i < count; i++ {
+		go func() {
+			ch <- api.GetRandomCharacter()
+		}()
+	}
+	for i := 0; i < count; i++ {
+		data[i] = <-ch
+	}
+
+	j, err := json.Marshal(data)
+	if err != nil {
+		j = []byte("{'error':'Error marshalling marvel character'}")
+	}
+
+	w.Header().Add("Content-Type", "application/json")
+	w.Write(j)
 }
