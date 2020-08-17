@@ -19,7 +19,7 @@ const (
 	MarvelPublicKey = "MARVEL_PUBLIC_KEY"
 )
 
-var api *marvel.Api
+var api *marvel.API
 
 func main() {
 

@@ -1,5 +1,5 @@
 /*
-Package that implements a minimal library to interact with the Marvel API.
+Package marvel that implements a minimal library to interact with the Marvel API.
 See https://developer.marvel.com/
 */
 package marvel
@@ -24,7 +24,8 @@ const (
 	total       = 1490
 )
 
-type Api struct {
+// A API provides a way to interact with the Marvel API
+type API struct {
 	privateKey string
 	publicKey  string
 }
@@ -48,25 +49,26 @@ type container struct {
 }
 
 type thumbnail struct {
-	Path      string `json:"path`
-	Extension string `json:"extension`
+	Path      string `json:"path"`
+	Extension string `json:"extension"`
 }
 
+// A Character represents a character returned by the Marvel API
 type Character struct {
-	Id          int       `json:"id"`
+	ID          int       `json:"id"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Thumbnail   thumbnail `json:"thumbnail"`
 }
 
 // NewAPI returns a new api given the public and private keys
-func NewAPI(privateKey, publicKey string) *Api {
+func NewAPI(privateKey, publicKey string) *API {
 	rand.Seed(time.Now().UnixNano())
-	return &Api{privateKey, publicKey}
+	return &API{privateKey, publicKey}
 }
 
 // GetRandomCharacter returns a random character from the Marvel API
-func (api *Api) GetRandomCharacter() Character {
+func (api *API) GetRandomCharacter() Character {
 
 	ts := strconv.FormatInt(time.Now().UnixNano(), 10)
 	offset := rand.Intn(total)
