@@ -19,6 +19,9 @@ const (
 	MarvelPublicKey = "MARVEL_PUBLIC_KEY"
 )
 
+// Port to start listening for requests
+const Port = ":8080"
+
 var api *marvel.API
 
 func main() {
@@ -32,8 +35,8 @@ func main() {
 	http.HandleFunc("/character/random", characterHandler)
 	http.HandleFunc("/character/random/", randomCountHandler)
 
-	log.Println("Starting server")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf("Starting server on port %s", Port)
+	log.Fatal(http.ListenAndServe(Port, nil))
 
 }
 
@@ -51,10 +54,6 @@ func characterHandler(w http.ResponseWriter, r *http.Request) {
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello, Go!")
-}
-
-type Results struct {
-	Data []marvel.Character
 }
 
 func randomCountHandler(w http.ResponseWriter, r *http.Request) {
