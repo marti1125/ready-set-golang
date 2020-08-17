@@ -65,7 +65,7 @@ func NewAPI(privateKey, publicKey string) *Api {
 	return &Api{privateKey, publicKey}
 }
 
-// GetRandomeCharacter returns a random character from the Marvel API
+// GetRandomCharacter returns a random character from the Marvel API
 func (api *Api) GetRandomCharacter() Character {
 
 	ts := strconv.FormatInt(time.Now().UnixNano(), 10)
