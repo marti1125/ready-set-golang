@@ -40,6 +40,10 @@ func main() {
 
 }
 
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Hello, Go!")
+}
+
 func characterHandler(w http.ResponseWriter, r *http.Request) {
 	character := api.GetRandomCharacter()
 
@@ -50,10 +54,6 @@ func characterHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Content-Type", "application/json")
 	w.Write(j)
-}
-
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello, Go!")
 }
 
 func randomCountHandler(w http.ResponseWriter, r *http.Request) {
