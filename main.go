@@ -60,7 +60,8 @@ func randomCountHandler(w http.ResponseWriter, r *http.Request) {
 
 	count, err := strconv.Atoi(strings.TrimPrefix(r.URL.Path, "/character/random/"))
 	if err != nil {
-		count = 1
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 	ch := make(chan marvel.Character, count)
 
